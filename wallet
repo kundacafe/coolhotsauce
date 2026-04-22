@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MyDoge Wallet Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+    button { padding: 10px 20px; font-size: 16px; }
+    #address { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>MyDoge Wallet Integration</h1>
+  <button id="connectBtn">Connect MyDoge Wallet</button>
+  <div id="address"></div>
+
+  <script>
+    async function connectWallet() {
+      // MyDoge injects a provider into the browser (similar to MetaMask)
+      if (window.myDoge) {
+        try {
+          const accounts = await window.myDoge.request({ method: 'eth_requestAccounts' });
+          const userAddress = accounts[0];
+          document.getElementById('address').innerText = "Connected: " + userAddress;
+        } catch (err) {
+          document.getElementById('address').innerText = "Error: " + err.message;
+        }
+      } else {
+        document.getElementById('address').innerText = "MyDoge wallet not detected in this browser.";
+      }
+    }
+
+    document.getElementById('connectBtn').onclick = connectWallet;
+  </script>
+</body>
+</html>
